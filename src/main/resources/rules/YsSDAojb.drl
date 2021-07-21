@@ -1,0 +1,26 @@
+package rules 
+
+import com.alibaba.fastjson.JSONObject
+import com.eystar.alarm.model.RuleTreeOrbit
+
+rule "YsSDAojb_0"
+    salience 100
+    no-loop false
+when
+    
+    $j : JSONObject(  alarm_id !="YsSDAojb" )   
+then
+  drools.halt(); 
+end
+
+rule "YsSDAojb_2"
+    salience 98
+    no-loop false
+when
+    
+    $j : JSONObject( $j.containsKey("dns_cost") && dns_cost>1 && alarm_id =="YsSDAojb"  && (!$j.containsKey("alarm_info_detail") )  )   
+then
+$j.put("alarm_info_detail","HTTP告警YsSDAojb任务id"+$j.getString("id"));
+end
+
+

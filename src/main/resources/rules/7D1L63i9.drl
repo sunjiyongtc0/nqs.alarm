@@ -1,0 +1,26 @@
+package rules 
+
+import com.alibaba.fastjson.JSONObject
+import com.eystar.alarm.model.RuleTreeOrbit
+
+rule "7D1L63i9_0"
+    salience 100
+    no-loop false
+when
+    
+    $j : JSONObject(  alarm_id !="7D1L63i9" )   
+then
+  drools.halt(); 
+end
+
+rule "7D1L63i9_2"
+    salience 98
+    no-loop false
+when
+    
+    $j : JSONObject( $j.containsKey("jitter") && jitter>1 && alarm_id =="7D1L63i9"  && (!$j.containsKey("alarm_info_detail") )  )   
+then
+$j.put("alarm_info_detail","PING告警7D1L63i9任务id"+$j.getString("id"));
+end
+
+
