@@ -11,6 +11,10 @@ import org.apache.flink.util.Collector;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * 动态时间窗口周期
+ * 根据AlarmMeta中配置的
+ * */
 public class FullWindowAggregationCycle implements WindowFunction<AlarmMeta, String, Tuple, TimeWindow> {
 
 

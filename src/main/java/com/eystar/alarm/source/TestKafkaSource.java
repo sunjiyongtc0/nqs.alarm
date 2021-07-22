@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import org.apache.flink.streaming.api.functions.source.SourceFunction;
 
 import java.util.Date;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class TestKafkaSource implements SourceFunction<JSONObject> {
@@ -23,6 +24,7 @@ public class TestKafkaSource implements SourceFunction<JSONObject> {
     String alarmHTTPId[]={"YsSDAojb"};
     public void run(SourceContext<JSONObject> sourceContext) throws Exception {
         while (running){
+            Random random=new Random();
             String s= ss[counter.getAndIncrement()%4];
             JSONObject message = JSONObject.parseObject(s);
             message.put("id",counter+"");
@@ -38,9 +40,9 @@ public class TestKafkaSource implements SourceFunction<JSONObject> {
             if(StrUtil.equals("PING",message.getString("task_type_name"))){
                 message.put("alarm_id",alarmPINGId[counter.get()%3]);
             }
-            Thread.sleep(300);
-            message.put("test_time",(new Date()).getTime());
+            message.put("test_time",(new Date()).getTime()-(random.nextInt(1000)));
             sourceContext.collect(message);
+            Thread.sleep(300);
         }
     }
 
