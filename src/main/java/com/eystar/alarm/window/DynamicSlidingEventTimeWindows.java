@@ -73,7 +73,7 @@ public class DynamicSlidingEventTimeWindows extends WindowAssigner<Object, TimeW
 
 
     public static DynamicSlidingEventTimeWindows of( AlarmMeta am) {
-        return new DynamicSlidingEventTimeWindows(am.getSize(), am.getSlide(), 0);
+        return of(Time.seconds(am.getSize()),Time.seconds( am.getSlide()), Time.seconds(0));
     }
 
 

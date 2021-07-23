@@ -63,9 +63,11 @@ public class DataNoStandardProcessFunction  extends KeyedProcessFunction<Tuple, 
         long alarmCount=TimerAlarmCount.value();
         long timeCount=TimerTimeCount.value();
         if(timeCount>=alarmCount){
-            System.out.println("定时任务结束后，timeCount>=alarmCount"+timeCount+"======="+alarmCount);
+            System.out.println(ctx.getCurrentKey()+"定时任务结束后，timeCount>=alarmCount"+timeCount+"======="+alarmCount);
             // 触发报警，并且清除 定时器状态值
-            out.collect("传感器" + ctx.getCurrentKey() + "温度值连续ms上升");
+            out.collect("记录告警" + ctx.getCurrentKey() + "设定时间内告警达到预期数");
+        }else{
+            System.out.println(ctx.getCurrentKey()+"定时任务不成立，timeCount<alarmCount"+timeCount+"======="+alarmCount);
         }
         TimerTimeStamp.clear();
         TimerTimeCount.clear();
